@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Найти";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Найти заявку</h1>    
+    <div class="card-body">
+        <form asp-action="SearchOrder"
+              asp-controller="Order" method="post">
+            <input type="text" name="text" class="form-control" placeholder="Введите сюда текст для поиска"
+                   value="" />
+            <button type="submit" class="d-inline-flex btn btn-block btn-primary">
+                Найти
+            </button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Редактировать заявку";
+}
+@model Order
+
+<div class="text-center">
+    <h1 class="display-4">Редактировать заявку</h1>
+    <div class="card-body">
+        <form asp-action="EditOrderSave"
+              asp-controller="Order" method="post">
+            <input type="hidden" name="id"
+                   value="@Model.OrderId" />
+            <input type="text" name="date" class="form-control" placeholder="Дата"
+                   value= @Model.Date />
+            <input type="text" name="shipper" class="form-control" placeholder="Грузоотправитель"
+                   value= @Model.Shipper />
+            <input type="text" name="consignee" class="form-control" placeholder="Грузополучатель"
+                   value= @Model.Consignee />
+            <input type="text" name="cargo" class="form-control" placeholder="Груз"
+                   value= @Model.Cargo />
+            <button type="submit" class="d-inline-flex btn btn-block btn-primary">
+                Сохранить
+            </button>
+        </form>
+    </div>
+</div>

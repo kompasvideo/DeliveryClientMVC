@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Зарегистрировать";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Зарегистрировать заявку</h1>    
+    <div class="card-body">
+        <form asp-action="AddOrder"
+              asp-controller="Order" method="post">
+            <input type="text" name="date" class="form-control" placeholder="Дата"
+                   value="" />
+            <input type="text" name="shipper" class="form-control" placeholder="Грузоотправитель"
+                   value="" />
+            <input type="text" name="consignee" class="form-control" placeholder="Грузополучатель"
+                   value="" />
+            <input type="text" name="cargo" class="form-control" placeholder="Груз"
+                   value="" />
+            <button type="submit" class="d-inline-flex btn btn-block btn-primary">
+                Зарегистрировать заявку
+            </button>
+        </form>
+    </div>
+</div>

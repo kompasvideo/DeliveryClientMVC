@@ -1,0 +1,79 @@
+﻿@{
+    ViewData["Title"] = "Найти";
+}
+@model IEnumerable<Order>
+
+<div class="text-center">
+    <h1 class="display-4">Найти заявку</h1>    
+    <div class="card-body">
+        <form asp-action="SearchOrder"
+              asp-controller="Order" method="post">
+            <input type="text" name="text" class="form-control" placeholder="Введите сюда текст для поиска"
+                   value= @ViewData["text"] />
+            <button type="submit" class="d-inline-flex btn btn-block btn-primary">
+                Найти
+            </button>
+        </form>
+    </div>
+    <div class="col-12">
+        <div class="row mb-3 text-center">
+            <div class="col-md-1">Номер заявки</div>
+            <div class="col-md-1">Дата</div>
+            <div class="col-md-2">Грузоотправитель</div>
+            <div class="col-md-3">Грузополучатель</div>
+            <div class="col-md-2">Груз</div>
+            <div class="col-md-1">Статус</div>
+            <div class="col-md-2" />
+        </div>
+        @foreach (var p in Model)
+        {
+            <div class="row mb-3 text-center">
+                <div class="col-md-1">
+                    @p.OrderId
+                </div>
+                <div class="col-md-1">
+                    @p.Date
+                </div>
+                <div class="col-md-2">
+                    @p.Shipper
+                </div>
+                <div class="col-md-3">
+                    @p.Consignee
+                </div>
+                <div class="col-md-2">
+                    @p.Cargo
+                </div>
+                <div class="col-md-1">
+                    @if (p.NewOrder)
+                    {
+                        <div>Новая</div>
+                    }
+                    else
+                    {
+                        <div>В работе</div>
+                    }
+                </div>
+                <div class="col-md-2">
+                    <form id="@p.OrderId" asp-action="DeleteOrder"
+                      asp-controller="Order" method="post" class="d-inline-flex pull-right" style="float:right">
+                        <input type="hidden" name="id"
+                               value="@p.OrderId" />
+                        <button type="submit"
+                                class="btn btn-danger btn-sm">
+                            Удалить
+                        </button>
+                    </form>
+                    <form id="@p.OrderId" asp-action="ViewEditOrder"
+                      asp-controller="Order" method="post" class="d-inline-flex pull-right" style="float:right">
+                        <input type="hidden" name="id"
+                               value="@p.OrderId" />
+                        <button type="submit"
+                                class="btn btn-success btn-sm">
+                            Редактировать
+                        </button>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+</div>
