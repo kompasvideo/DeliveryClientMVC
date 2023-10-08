@@ -28,8 +28,16 @@ namespace DeliveryClientMVC.Controllers
         {
             Order order = new Order();
             order.Date = date;
-            order.Shipper = shipper;    
-            order.Consignee = consignee;
+            order.Shipper = 
+                new Client()
+                {
+                    Name = shipper
+                }; 
+            order.Consignee = 
+                new Client()
+                {
+                    Name = consignee                
+                }; 
             order.Cargo = cargo;
             _orderRepository.SaveOrder(order);
             return RedirectToAction("Index");
@@ -69,13 +77,22 @@ namespace DeliveryClientMVC.Controllers
 
         [HttpPost]
         public RedirectToActionResult EditOrderSave(int id, string date, string shipper, string consignee, string cargo) 
-        {
+        {            
             Order order = new Order
             {
                 OrderId = id,
                 Date = date,
-                Shipper = shipper,
-                Consignee = consignee,
+                Shipper = 
+                    new Client()
+                    {
+                        Name = shipper
+                    
+                    },
+                Consignee = 
+                    new Client()
+                    {
+                        Name = consignee                    
+                    },
                 Cargo = cargo
             };
             _orderRepository.EditOrder(order);
