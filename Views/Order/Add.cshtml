@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Зарегистрировать";
 }
+@model IEnumerable<Client>
 
 <div class="text-center">
     <h1 class="display-4">Зарегистрировать заявку</h1>    
@@ -9,10 +10,18 @@
               asp-controller="Order" method="post">
             <input type="text" name="date" class="form-control" placeholder="Дата"
                    value="" />
-            <input type="text" name="shipper" class="form-control" placeholder="Грузоотправитель"
-                   value="" />
-            <input type="text" name="consignee" class="form-control" placeholder="Грузополучатель"
-                   value="" />
+            <select name="shipper" class="form-control">
+                @foreach (var p in Model)
+                {
+                    <option value="@p.Name">@p.Name</option>
+                }
+            </select>
+            <select name="consignee" class="form-control" placeholder="Грузоотправитель">
+                @foreach (var p in Model)
+                {
+                    <option value="@p.Name">@p.Name</option>
+                }
+            </select>
             <input type="text" name="cargo" class="form-control" placeholder="Груз"
                    value="" />
             <button type="submit" class="d-inline-flex btn btn-block btn-primary">

@@ -20,7 +20,7 @@ namespace DeliveryClientMVC.Controllers
 
         public IActionResult Add()
         {
-            return View();
+            return View(_orderRepository.GetClients());
         }
 
         [HttpPost]
@@ -28,8 +28,8 @@ namespace DeliveryClientMVC.Controllers
         {
             Order order = new Order();
             order.Date = date;
-            order.Shipper = shipper;    
-            order.Consignee = consignee;
+            order.Shipper = _orderRepository.GetClientToName(shipper);
+            order.Consignee = _orderRepository.GetClientToName(consignee);
             order.Cargo = cargo;
             _orderRepository.SaveOrder(order);
             return RedirectToAction("Index");
@@ -57,6 +57,25 @@ namespace DeliveryClientMVC.Controllers
         {
             return View(_orderRepository.Orders);
         }
+
+        [HttpPost]
+        public IActionResult TransferOrder(int id)
+        {
+            ViewTransfer viewTransfer = new ViewTransfer()
+            {
+                Couriers = _orderRepository.GetCouriers(),
+                Order = _orderRepository.GetOrderById(id),
+            };
+            return View(viewTransfer);
+        }
+
+        [HttpPost]
+        public RedirectToActionResult TransferOrderSave(int id, string courier)
+        {
+            _orderRepository.TransferOrderSave(id, courier);
+            return RedirectToAction("Transfer");
+        }
+
         public IActionResult EditOrder()
         {
             return View(_orderRepository.Orders);
@@ -64,18 +83,23 @@ namespace DeliveryClientMVC.Controllers
         [HttpPost]
         public IActionResult ViewEditOrder(int id)
         {
-            return View(_orderRepository.GetOrderById(id));
+            ViewEdit viewEdit = new ViewEdit()
+            {
+                Order = _orderRepository.GetOrderById(id),
+                Clients = _orderRepository.GetClients()
+            };
+            return View(viewEdit);
         }
 
         [HttpPost]
         public RedirectToActionResult EditOrderSave(int id, string date, string shipper, string consignee, string cargo) 
-        {
+        {            
             Order order = new Order
             {
                 OrderId = id,
                 Date = date,
-                Shipper = shipper,
-                Consignee = consignee,
+                Shipper = _orderRepository.GetClientToName(shipper),
+                Consignee = _orderRepository.GetClientToName(consignee),
                 Cargo = cargo
             };
             _orderRepository.EditOrder(order);
@@ -93,6 +117,29 @@ namespace DeliveryClientMVC.Controllers
             _orderRepository.DeleteOrder(id);
             return RedirectToAction("DeleteOrder");
         }
+
+        [HttpPost]
+        public RedirectToActionResult OrderDone(int id)
+        {
+            _orderRepository.OrderDone(id);
+            return RedirectToAction("EditOrder");
+        }
+
+
+        [HttpPost]
+        public IActionResult OrderCanceled(int id)
+        {
+            Order order = _orderRepository.GetOrderById(id);
+            return View(order);
+        }
+
+        [HttpPost]
+        public RedirectToActionResult OrderCanceledSave(int id, string comments)
+        {
+            _orderRepository.OrderCanceledSave(id, comments);
+            return RedirectToAction("EditOrder");
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

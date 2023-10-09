@@ -24,22 +24,30 @@
                     @p.Date
                 </div>
                 <div class="col-md-2">
-                    @p.Shipper
+                    @p.Shipper.Name
                 </div>
                 <div class="col-md-3">
-                    @p.Consignee
+                    @p.Consignee.Name
                 </div>
                 <div class="col-md-2">
                     @p.Cargo
                 </div>
                 <div class="col-md-1">
-                    @if (p.NewOrder)
+                    @if (p.StatusOrder == StatusOrder.NEW)
                     {
                         <div>Новая</div>
                     }
+                    else if (p.StatusOrder == StatusOrder.TRANSMITTED)
+                    {
+                        <div>Передано на выполнение</div>
+                    }
+                    else if (p.StatusOrder == StatusOrder.DONE)
+                    {
+                        <div>Выполнено</div>
+                    }
                     else
                     {
-                        <div>В работе</div>
+                        <div>Отменена</div>
                     }
                 </div>
                 <div class="col-md-2">

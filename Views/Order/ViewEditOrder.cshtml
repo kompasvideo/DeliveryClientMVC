@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Редактировать заявку";
 }
-@model Order
+@model ViewEdit
 
 <div class="text-center">
     <h1 class="display-4">Редактировать заявку</h1>
@@ -9,15 +9,37 @@
         <form asp-action="EditOrderSave"
               asp-controller="Order" method="post">
             <input type="hidden" name="id"
-                   value="@Model.OrderId" />
+                   value="@Model.Order.OrderId" />
             <input type="text" name="date" class="form-control" placeholder="Дата"
-                   value= @Model.Date />
-            <input type="text" name="shipper" class="form-control" placeholder="Грузоотправитель"
-                   value= @Model.Shipper />
-            <input type="text" name="consignee" class="form-control" placeholder="Грузополучатель"
-                   value= @Model.Consignee />
+                   value=@Model.Order.Date />
+            <select name="shipper" class="form-control">
+                @foreach (var p in Model.Clients)
+                {
+                    if (p.Name == Model.Order.Shipper.Name)
+                    {
+                        <option selected value="@p.Name">@p.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@p.Name">@p.Name</option>
+                    }
+                }
+            </select>
+            <select name="consignee" class="form-control" placeholder="Грузоотправитель">
+                @foreach (var p in Model.Clients)
+                {
+                    if (p.Name == Model.Order.Consignee.Name)
+                    {
+                        <option selected value="@p.Name">@p.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@p.Name">@p.Name</option>
+                    }
+                }
+            </select>
             <input type="text" name="cargo" class="form-control" placeholder="Груз"
-                   value= @Model.Cargo />
+                   value=@Model.Order.Cargo />
             <button type="submit" class="d-inline-flex btn btn-block btn-primary">
                 Сохранить
             </button>

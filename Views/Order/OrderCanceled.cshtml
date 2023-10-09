@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Главная";
+}
+@model Order
+
+<div class="text-center">
+    <h1 class="display-4">Отменить заявку</h1>
+    <div class="card-body">
+        <form asp-action="OrderCanceledSave"
+              asp-controller="Order" method="post">
+            <input type="hidden" name="id"
+                   value="@Model.OrderId" />
+            <input type="text" name="comments" class="form-control" placeholder="Комментарий для отмены заявки" value="" />
+            <button type="submit" class="d-inline-flex btn btn-block btn-primary">
+                Сохранить
+            </button>
+        </form>
+    </div>
+</div>

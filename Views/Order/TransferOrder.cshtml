@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "Главная";
+}
+@model ViewTransfer
+
+<div class="text-center">
+    <h1 class="display-4">Передать заявку</h1>
+    <div class="card-body">
+        <div>
+            <div>
+                Заявка:
+            </div>
+            <div>
+                Дата: @Model.Order.Date
+            </div>
+            <div>
+                Грузополучатель: @Model.Order.Shipper.Name
+            </div>
+            <div>
+                Грузоотправитель: @Model.Order.Consignee.Name
+            </div>
+            <div>
+                Груз: @Model.Order.Cargo
+            </div>
+        </div>
+        <form asp-action="TransferOrderSave"
+              asp-controller="Order" method="post">
+            <input type="hidden" name="id"
+                   value="@Model.Order.OrderId" />
+            <select name="courier" class="form-control">
+                @foreach (var p in Model.Couriers)
+                {
+                    <option value="@p.Name">@p.Name</option>
+                }
+            </select>
+            <button type="submit" class="d-inline-flex btn btn-block btn-primary">
+                Сохранить
+            </button>
+        </form>
+    </div>
+</div>
